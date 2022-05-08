@@ -1,8 +1,7 @@
 import styles from '../styles/styles.module.css'
 import noimg from '../assets/no-image.jpg'
 import { useProduct } from '../hooks/useProduct';
-import { ReactElement, useContext } from 'react';
-import { createContext } from 'vm';
+import { ReactElement, useContext, createContext } from 'react';
 
 interface Props{
   children?: ReactElement | ReactElement[ ]
@@ -22,12 +21,12 @@ interface ProdcutContextProps {
 }
 
 
-const ProductContext = createContext( { } as ProdcutContextProps  );
-const { Provider } = ProductContext;
+const ProductContext = createContext( {  } as ProdcutContextProps)
+const { Provider } = ProductContext
 
 export const ProductImage = ({title = '', img= ''}) => {
 
-  const { product } = useContext(ProductContext);
+  const { product } = useContext( ProductContext );
   let imgToShow: string;
 
   if( img ) imgToShow = img;
@@ -35,14 +34,16 @@ export const ProductImage = ({title = '', img= ''}) => {
   else imgToShow = noimg;
 
   return (
-    <img className={ styles.productImg } src={imgToShow } alt={ title } />
+    <img className={ styles.productImg } src={ imgToShow } alt={ title? title : product.title } />
   )
 }
 
-export const ProductTitle = ({title}: {title: string} ) => {
+export const ProductTitle = ( { title }: {title?: string}) => {
+
+  const { product } = useContext( ProductContext );
 
   return (
-    <span className={ styles.productDescription }>{title}</span>
+    <span className={ styles.productDescription }>{ title? title : product.title }</span>
   )
 }
 
@@ -66,11 +67,7 @@ export const ProductCard = ({ children, product }: Props) => {
   const { counter, increaseBy } = useProduct();
 
   return (
-    <Provider value={{
-      counter,
-      increaseBy,
-      product
-    }}>
+    <Provider value={{ counter, increaseBy, product }}>
       <div className={ styles.productCard }>
 
         { children }
