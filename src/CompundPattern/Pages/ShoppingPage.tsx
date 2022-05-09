@@ -2,7 +2,6 @@
 import {ProductCard, ProductImage ,ProductTitle, ProductButtons} from "../components/index"
 import styles from '../styles/styles.module.css'
 
-
 const product = {
   id: '1',
   title: 'Coffe Mug - Card',
