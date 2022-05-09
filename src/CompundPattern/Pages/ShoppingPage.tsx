@@ -1,4 +1,5 @@
-import { ProductCard, ProductButtons, ProductImage, ProductTitle } from "../components/ProductCard"
+
+import {ProductCard, ProductImage ,ProductTitle, ProductButtons} from "../components/index"
 import styles from '../styles/styles.module.css'
 
 
@@ -16,7 +17,7 @@ const ShoppingPage = () => {
       <div className={ styles.box }>
         <ProductCard product={ product }>
           <ProductImage />
-          <ProductTitle title={'Hola mundo'}/>
+          <ProductTitle title={''}/>
           <ProductButtons />
         </ProductCard>
 
@@ -26,8 +27,6 @@ const ShoppingPage = () => {
           <ProductCard.Buttons />
         </ProductCard>
 
-
-        <ProductCard product={ product }/>
       </div>
     </div>
   )
