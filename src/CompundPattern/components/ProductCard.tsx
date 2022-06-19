@@ -1,36 +1,50 @@
 import styles from '../styles/styles.module.css'
 import { useProduct } from '../hooks/useProduct';
 import { createContext, CSSProperties, ReactElement } from 'react';
-import { onChangeArgs, ProdcutContextProps, Product } from '../interfaces/product.interfaces';
+import { InitialValues, onChangeArgs, ProdcutContextProps, Product, ProductCardhandlers } from '../interfaces/product.interfaces';
 
 export const ProductContext = createContext({} as ProdcutContextProps)
 const { Provider } = ProductContext
 
 
 export interface Props {
-  children?: ReactElement | ReactElement[];
+  // children?: ReactElement | ReactElement[];
+  children: ( args: ProductCardhandlers ) => JSX.Element ;
   className?: string;
+  initialValues?: InitialValues;
   product: Product;
   style?: CSSProperties;
   onChange?: ( args: onChangeArgs ) => void;   
   value?: number
 }
 
-export const ProductCard = ({ children, product, className, style, onChange, value }: Props) => {
 
-  const { counter, increaseBy } = useProduct({ onChange, product, value });
+export const ProductCard = ({ children,  className, initialValues, onChange, product, style, value }: Props) => {
+
+  const { counter, isMaxCountReached, increaseBy, maxCount, reset } = useProduct({ onChange, product, value, initialValues });
 
   return (
     <Provider value={{
       counter,
       increaseBy,
+      maxCount,
       product
     }}>
       <article 
         className={` ${styles.productCard} ${className}`} 
         style={ style }
       >
-        {children}
+        { 
+          children({
+            count: counter,
+            isMaxCountReached,
+            maxCount: initialValues?.maxCount,
+            product: product,
+            
+            increaseBy,
+            reset,
+          }) 
+        }
       </article>
 
     </Provider>
